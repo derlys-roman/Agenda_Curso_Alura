@@ -1,6 +1,5 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.StudentDAO
@@ -12,12 +11,13 @@ class StudentRegisterActivity : AppCompatActivity() {
     private val dao = StudentDAO()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = "Novo aluno"
         binding = ActivityStudentRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.activityRegisterStudentSaveButton.setOnClickListener{ onClick() }
+        binding.activityRegisterStudentSaveButton.setOnClickListener{ saveStudent() }
 
     }
-    private fun onClick() {
+    private fun saveStudent() {
 
         val name = binding.activityRegisterStudentName.text.toString()
         val telephone = binding.activityRegisterStudentTelephone.text.toString()
@@ -25,7 +25,7 @@ class StudentRegisterActivity : AppCompatActivity() {
         val student = Student(name, telephone, email)
 
         dao.save(student)
-        startActivity(Intent(this, StudentListActivity::class.java))
+        finish()
 
     }
 

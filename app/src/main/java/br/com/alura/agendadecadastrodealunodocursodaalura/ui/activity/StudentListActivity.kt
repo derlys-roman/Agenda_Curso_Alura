@@ -18,16 +18,24 @@ class StudentListActivity : AppCompatActivity() {
         binding = ActivityListStudentBinding.inflate(layoutInflater)
         title = "Aluno"
         setContentView(binding.root)
-        listAdapting()
-        binding.activityListStudentFab.setOnClickListener{operationFab()}
+        binding.activityListStudentFab.setOnClickListener{buttonFab()}
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        listAdapting()
     }
 
     private fun listAdapting(){
         binding.activityListStudentsListview.adapter =
             ArrayAdapter(this, R.layout.simple_list_item_1, dao.allStudent())
     }
-    private fun operationFab(){
+    private fun buttonFab(){
+        callRegisterActivity()
+    }
+
+    private fun callRegisterActivity() {
         startActivity(Intent(this, StudentRegisterActivity::class.java))
     }
 
