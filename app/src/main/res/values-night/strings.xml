@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_activity_floating_button">Adittion button</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_telephone">Telephone</string>
+    <string name="hint_e_mail">E-mail</string>
+    <string name="hint_save">Save</string>
 </resources>
