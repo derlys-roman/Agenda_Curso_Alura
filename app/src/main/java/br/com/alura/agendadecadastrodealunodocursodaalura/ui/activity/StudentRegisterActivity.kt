@@ -1,5 +1,6 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.StudentDAO
@@ -16,7 +17,14 @@ class StudentRegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.activityRegisterStudentSaveButton.setOnClickListener{ saveStudent() }
 
+        val data: Intent = intent
+        val name : Student? = data.getSerializableExtra("name") as? Student
+        binding.activityRegisterStudentName.setText(name?.name)
+        binding.activityRegisterStudentTelephone.setText(name?.telephone)
+        binding.activityRegisterStudentEmail.setText(name?.email)
+
     }
+
     private fun saveStudent() {
 
         val name = binding.activityRegisterStudentName.text.toString()
