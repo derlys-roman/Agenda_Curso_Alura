@@ -1,25 +1,39 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import br.com.alura.agendadecadastrodealunodocursodaalura.dao.StudentDAO
+import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityListStudentBinding
+import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class StudentListActivity : AppCompatActivity() {
+
+class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity() {
 
     private lateinit var binding: ActivityListStudentBinding
 
-    private val dao = StudentDAO()
+    private lateinit var list: ListView
+
+    private lateinit var addButton: FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListStudentBinding.inflate(layoutInflater)
-        title = "Aluno"
         setContentView(binding.root)
-        binding.activityListStudentFab.setOnClickListener{buttonFab()}
 
+        title = "Register"
+
+        activityComponents()
+        addButton.setOnClickListener { buttonFab() }
+
+    }
+
+    fun activityComponents(){
+        this.list = binding.activityListStudentsListview
+        this.addButton = binding.activityListStudentFab
     }
 
     override fun onResume() {
@@ -27,25 +41,26 @@ class StudentListActivity : AppCompatActivity() {
         listAdapting()
     }
 
-    private fun listAdapting(){
-        val allStudents = dao.allStudent()
-        binding.activityListStudentsListview.adapter =
-            ArrayAdapter(this, R.layout.simple_list_item_1, allStudents)
-        /*
-        binding.activityListStudentsListview.setOnItemClickListener serve para setar clicks em cada
-        elemento do viewList ao qual pertence
-         */
-        binding.activityListStudentsListview.setOnItemClickListener {adapterView, view, position, id ->
-            //Cria uma variable local (somente dentro do metodo setonitemclicklistener)com o
-            // aluno clicado, para isso é adicionado o elemento da lista
-            // passando como posicao o parametro da propia listener
-            val selectedStudent = allStudents[position]
-            val openEditTextField = Intent(this, StudentRegisterActivity::class.java )
-            openEditTextField.putExtra("name", selectedStudent)
+    private fun listAdapting() {
+        val allStudents = dao.read()
+        list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, allStudents)
+
+        clickItemAction()
+    }
+
+    private fun clickItemAction() {
+
+        list.setOnItemClickListener { adapterView, view, position, id ->
+
+            val openEditTextField = Intent(this, EditActivity::class.java).apply {
+                putExtra("alunoTransferido", adapterView.getItemAtPosition(position) as People)
+            }
+
             startActivity(openEditTextField)
         }
     }
-    private fun buttonFab(){
+
+    private fun buttonFab() {
         callRegisterActivity()
     }
 

@@ -5,4 +5,5 @@
     <string name="hint_telephone">Telephone</string>
     <string name="hint_e_mail">E-mail</string>
     <string name="hint_save">Save</string>
+    <string name="update_button">Update</string>
 </resources>
