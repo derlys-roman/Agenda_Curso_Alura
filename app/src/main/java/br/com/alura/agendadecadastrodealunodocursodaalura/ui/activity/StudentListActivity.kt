@@ -11,13 +11,14 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity() {
+class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity(), ConstantsActivities{
 
     private lateinit var binding: ActivityListStudentBinding
 
-    private lateinit var list: ListView
+    private lateinit var listView: ListView
 
     private lateinit var addButton: FloatingActionButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
     }
 
     fun activityComponents(){
-        this.list = binding.activityListStudentsListview
+        this.listView = binding.activityListStudentsListview
         this.addButton = binding.activityListStudentFab
     }
 
@@ -43,17 +44,17 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
 
     private fun listAdapting() {
         val allStudents = dao.read()
-        list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, allStudents)
+        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, allStudents)
 
         clickItemAction()
     }
 
     private fun clickItemAction() {
 
-        list.setOnItemClickListener { adapterView, view, position, id ->
+        listView.setOnItemClickListener { adapterView, view, position, id ->
 
             val openEditTextField = Intent(this, EditActivity::class.java).apply {
-                putExtra("alunoTransferido", adapterView.getItemAtPosition(position) as People)
+                putExtra(PEOPLE_KEY, adapterView.getItemAtPosition(position) as People)
             }
 
             startActivity(openEditTextField)

@@ -9,7 +9,7 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityEd
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
 class EditActivity(private val dao: PeopleDAO = PeopleDAO()
-) : AppCompatActivity() {
+) : AppCompatActivity(), ConstantsActivities {
     private lateinit var binding: ActivityEditBinding
     private lateinit var editaNome: EditText
     private lateinit var editaTelefone: EditText
@@ -26,7 +26,7 @@ class EditActivity(private val dao: PeopleDAO = PeopleDAO()
         inicializarCampos()
 
         val peopleReceivedSerialized: People? =
-            intent.extras?.getParcelable("alunoTransferido")
+            intent.extras?.getParcelable(PEOPLE_KEY)
 
         elementoEditado = peopleReceivedSerialized!!
 
