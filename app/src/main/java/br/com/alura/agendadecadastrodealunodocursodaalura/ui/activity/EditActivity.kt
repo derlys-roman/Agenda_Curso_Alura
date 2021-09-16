@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityEditBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
@@ -20,10 +21,10 @@ class EditActivity(private val dao: PeopleDAO = PeopleDAO()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        title = "Editando Cadastro"
+        title = getString(R.string.title_edit)
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        inicializarCampos()
+        startActivityComponents()
 
         val peopleReceivedSerialized: People? =
             intent.extras?.getParcelable(PEOPLE_KEY)
@@ -31,9 +32,7 @@ class EditActivity(private val dao: PeopleDAO = PeopleDAO()
         elementoEditado = peopleReceivedSerialized!!
 
 
-        this.editaNome.setText(elementoEditado.name)
-        this.editaTelefone.setText(elementoEditado.telephone)
-        this.editaEmail.setText(elementoEditado.email)
+        fillFields()
 
         editarAluno.setOnClickListener{
             updateStudent()
@@ -43,7 +42,13 @@ class EditActivity(private val dao: PeopleDAO = PeopleDAO()
         }
     }
 
-    private fun inicializarCampos() {
+    private fun fillFields() {
+        this.editaNome.setText(elementoEditado.name)
+        this.editaTelefone.setText(elementoEditado.telephone)
+        this.editaEmail.setText(elementoEditado.email)
+    }
+
+    private fun startActivityComponents() {
         this.editaNome = binding.activityEditName
         this.editaTelefone = binding.activityEditTelephone
         this.editaEmail = binding.activityEditEmail

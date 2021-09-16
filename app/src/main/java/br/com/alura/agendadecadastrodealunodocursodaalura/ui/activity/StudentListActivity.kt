@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityListStudentBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
@@ -25,14 +26,14 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
         binding = ActivityListStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        title = "Register"
+        title = getString(R.string.title_registers)
 
-        activityComponents()
+        startActivityComponents()
         addButton.setOnClickListener { buttonFab() }
 
     }
 
-    fun activityComponents(){
+    private fun startActivityComponents(){
         this.listView = binding.activityListStudentsListview
         this.addButton = binding.activityListStudentFab
     }

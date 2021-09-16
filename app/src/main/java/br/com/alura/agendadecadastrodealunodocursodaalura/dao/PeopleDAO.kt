@@ -16,18 +16,20 @@ class PeopleDAO {
     }
 
     fun update(people: People) {
-        var peopleFound: People? = null
+        val peopleFound: People? = searchPeople(people)
+        if (peopleFound != null){
+            val studentPosition: Int = DATA_BASE_SIMULATED.indexOf(element = peopleFound)
+            DATA_BASE_SIMULATED[studentPosition] = people
+        }
+    }
+
+    private fun searchPeople(people: People): People? {
         for (a in DATA_BASE_SIMULATED) {
             if (a.id == people.id) {
-                peopleFound = a
+                return a
             }
-            if (peopleFound != null){
-                val studentPosition: Int = DATA_BASE_SIMULATED.indexOf(peopleFound)
-                DATA_BASE_SIMULATED[studentPosition] = people
-            }
-
         }
-
+        return null
     }
 
     fun read(): List<People> {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
@@ -18,10 +19,10 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        title = "New Register"
+        title = getString(R.string.title_new_register)
         binding = ActivityStudentRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        inicializarCampos()
+        startActivityComponents()
         adicionarPessoa.setOnClickListener {
             savePeople()
         }
@@ -41,7 +42,7 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
 
     }
 
-    private fun inicializarCampos() {
+    private fun startActivityComponents() {
         campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail
