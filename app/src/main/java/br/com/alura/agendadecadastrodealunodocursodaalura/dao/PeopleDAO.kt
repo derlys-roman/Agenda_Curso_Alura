@@ -17,7 +17,14 @@ class PeopleDAO {
 
     fun update(people: People) {
         val peopleFound: People? = searchPeople(people)
-        if (peopleFound != null){
+        replaceObject(peopleFound, people)
+    }
+
+    private fun replaceObject(
+        peopleFound: People?,
+        people: People) {
+
+        if (peopleFound != null) {
             val studentPosition: Int = DATA_BASE_SIMULATED.indexOf(element = peopleFound)
             DATA_BASE_SIMULATED[studentPosition] = people
         }
@@ -36,5 +43,14 @@ class PeopleDAO {
         return ArrayList(DATA_BASE_SIMULATED)
     }
 
+    fun delete(people: People){
+
+        val searchPeople = searchPeople(people)
+
+        val studentPosition = DATA_BASE_SIMULATED.indexOf(element = searchPeople)
+
+        DATA_BASE_SIMULATED.removeAt(studentPosition)
+
+    }
 
 }

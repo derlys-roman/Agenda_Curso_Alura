@@ -2,6 +2,10 @@ package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +15,6 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityLi
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity(), ConstantsActivities{
 
     private lateinit var binding: ActivityListStudentBinding
@@ -20,6 +23,7 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
 
     private lateinit var addButton: FloatingActionButton
 
+    private lateinit var adapter: ArrayAdapter<People>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,32 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
         startActivityComponents()
         addButton.setOnClickListener { buttonFab() }
 
+        listAdapting()
+
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.activity_student_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        val menuInfo: AdapterView.AdapterContextMenuInfo =
+            item.menuInfo as AdapterView.AdapterContextMenuInfo
+
+        adapter.getItem(menuInfo.position)?.let { removeOfList(it) }
+
+        return super.onContextItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateList()
     }
 
     private fun startActivityComponents(){
@@ -38,23 +68,46 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
         this.addButton = binding.activityListStudentFab
     }
 
-    override fun onResume() {
-        super.onResume()
-        listAdapting()
+    private fun updateList() {
+        adapter.clear()
+        adapter.addAll(dao.read())
     }
 
     private fun listAdapting() {
-        val allStudents = dao.read()
-        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, allStudents)
+
+        adapterConfig()
 
         clickItemAction()
+
+//        longClickListenerConfig()
+
+        registerForContextMenu(listView)
+    }
+
+//    private fun longClickListenerConfig() {
+//        listView.setOnItemLongClickListener { parent, view, position, id ->
+//
+//            val itemToRemove = parent.getItemAtPosition(position) as People
+//            removeOfList(itemToRemove)
+//            true
+//        }
+//    }
+
+    private fun removeOfList(people: People) {
+        dao.delete(people)
+        adapter.remove(people)
+    }
+
+    private fun adapterConfig() {
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
+        listView.adapter = adapter
     }
 
     private fun clickItemAction() {
 
         listView.setOnItemClickListener { adapterView, view, position, id ->
 
-            val openEditTextField = Intent(this, EditActivity::class.java).apply {
+            val openEditTextField = Intent(this, StudentRegisterActivity::class.java).apply {
                 putExtra(PEOPLE_KEY, adapterView.getItemAtPosition(position) as People)
             }
 
