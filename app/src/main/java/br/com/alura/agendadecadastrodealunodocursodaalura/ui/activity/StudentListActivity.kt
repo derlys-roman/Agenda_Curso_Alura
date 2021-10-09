@@ -42,8 +42,7 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
+        menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
         menuInflater.inflate(R.menu.activity_student_menu, menu)
     }
@@ -53,7 +52,10 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
         val menuInfo: AdapterView.AdapterContextMenuInfo =
             item.menuInfo as AdapterView.AdapterContextMenuInfo
 
-        adapter.getItem(menuInfo.position)?.let { removeOfList(it) }
+        if(item.itemId == R.id.activity_student_menu_remove){
+            adapter.getItem(menuInfo.position)?.let { removeOfList(it) }
+        }
+
 
         return super.onContextItemSelected(item)
     }
@@ -79,19 +81,8 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
 
         clickItemAction()
 
-//        longClickListenerConfig()
-
         registerForContextMenu(listView)
     }
-
-//    private fun longClickListenerConfig() {
-//        listView.setOnItemLongClickListener { parent, view, position, id ->
-//
-//            val itemToRemove = parent.getItemAtPosition(position) as People
-//            removeOfList(itemToRemove)
-//            true
-//        }
-//    }
 
     private fun removeOfList(people: People) {
         dao.delete(people)
