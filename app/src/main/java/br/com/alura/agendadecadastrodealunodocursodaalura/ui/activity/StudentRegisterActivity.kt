@@ -2,7 +2,8 @@ package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
@@ -15,40 +16,45 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
     private lateinit var campoNome: EditText
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
-    private lateinit var adicionarPessoa: Button
-    private lateinit var elementoEditado: People
-
+    private var elementoEditado: People = People()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        title = getString(R.string.title_new_register)
         binding = ActivityStudentRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         startActivityComponents()
-
-        val peopleReceivedSerialized = intent
-
-        confere(peopleReceivedSerialized)
+        confere()
     }
 
-    private fun confere(peopleReceivedSerialized: Intent) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_register_menu_salvar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        saveRegister()
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun confere() {
+        val peopleReceivedSerialized: Intent = intent
         if (peopleReceivedSerialized.hasExtra(PEOPLE_KEY)) {
             title = getString(R.string.title_edit)
-            adicionarPessoa.text = getString(R.string.update_button)
             elementoEditado = peopleReceivedSerialized.extras?.getParcelable(PEOPLE_KEY)!!
             fillFields()
-            adicionarPessoa.setOnClickListener {
-                updatePeople()
-                dao.update(elementoEditado)
-                finish()
-            }
-        } else {
-            adicionarPessoa.setOnClickListener {
-                savePeople()
-            }
+            return
         }
+        title = getString(R.string.title_new_register)
+    }
+
+    private fun saveRegister(){
+        if (elementoEditado.idValid()){
+            updatePeople()
+            dao.update(elementoEditado)
+        }else{
+            savePeople()
+        }
+        finish()
     }
 
     fun updatePeople(){
@@ -58,23 +64,18 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
     }
 
     private fun savePeople() {
-
         val one = People(
             name = campoNome.text.toString(),
             telephone = campoTelefone.text.toString(),
             email = campoEmail.text.toString()
         )
-
         dao.create(one)
-        finish()
-
     }
 
     private fun startActivityComponents() {
         campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail
-        adicionarPessoa = binding.activityRegisterStudentSaveButton
     }
 
     private fun fillFields(){
@@ -82,5 +83,4 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
         campoEmail.setText(elementoEditado.email)
         campoTelefone.setText(elementoEditado.telephone)
     }
-
 }

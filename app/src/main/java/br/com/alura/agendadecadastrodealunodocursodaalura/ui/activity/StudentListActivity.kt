@@ -44,7 +44,7 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
         v: View?,
         menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.activity_student_menu, menu)
+        menuInflater.inflate(R.menu.activity_student_menu_remover, menu)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

@@ -11,4 +11,5 @@
     <string name="title_registers">Registers</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_edit">Edit</string>
+    <string name="salvar_aluno">salvar aluno</string>
 </resources>
