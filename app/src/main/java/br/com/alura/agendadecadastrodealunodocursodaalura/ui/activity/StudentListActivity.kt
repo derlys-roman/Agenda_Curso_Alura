@@ -98,8 +98,8 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatA
 
         listView.setOnItemClickListener { adapterView, view, position, id ->
 
-            val openEditTextField = Intent(this, StudentRegisterActivity::class.java).apply {
-                putExtra(PEOPLE_KEY, adapterView.getItemAtPosition(position) as People)
+            val openEditTextField = Intent(this, EditRegisterActivity::class.java)
+                .apply { putExtra(PEOPLE_KEY, adapterView.getItemAtPosition(position) as People)
             }
 
             startActivity(openEditTextField)

@@ -10,12 +10,20 @@ class PeopleDAO {
         private var idCounter = 1
     }
     fun create(people: People) {
+        if (people.name.isEmpty()){
+            return
+        }
+
         people.id = idCounter
         DATA_BASE_SIMULATED.add(people)
         idCounter++
     }
 
     fun update(people: People) {
+        if (people.name.isEmpty()) {
+            return
+        }
+
         val peopleFound: People? = searchPeople(people)
         replaceObject(peopleFound, people)
     }

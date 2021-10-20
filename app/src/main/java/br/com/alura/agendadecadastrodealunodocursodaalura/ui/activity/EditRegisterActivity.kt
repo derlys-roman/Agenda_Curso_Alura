@@ -10,37 +10,39 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
-class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity() {
+class EditRegisterActivity (private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity(), ConstantsActivities {
+
     private lateinit var binding: ActivityStudentRegisterBinding
     private lateinit var campoNome: EditText
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
+    private var elementoEditado: People = People()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudentRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        title = getString(R.string.title_new_register)
+        setContentView(this.binding.root)
+        title = getString(R.string.title_edit)
+        val peopleReceivedSerialized: People? = intent.getParcelableExtra(PEOPLE_KEY)
+        elementoEditado = peopleReceivedSerialized!!
         startActivityComponents()
+        fillFields()
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.activity_register_menu_salvar, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        savePeople()
+        updatePeople()
         return super.onOptionsItemSelected(item)
     }
 
-    private fun savePeople() {
-        val one = People(
-            name = campoNome.text.toString(),
-            telephone = campoTelefone.text.toString(),
-            email = campoEmail.text.toString()
-        )
-        dao.create(one)
+    private fun updatePeople(){
+        elementoEditado.name = campoNome.text.toString()
+        elementoEditado.telephone = campoTelefone.text.toString()
+        elementoEditado.email = campoEmail.text.toString()
+        dao.update(elementoEditado)
         finish()
     }
 
@@ -48,6 +50,12 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
         campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail
+    }
+
+    private fun fillFields(){
+        campoNome.setText(elementoEditado.name)
+        campoEmail.setText(elementoEditado.email)
+        campoTelefone.setText(elementoEditado.telephone)
     }
 
 }
