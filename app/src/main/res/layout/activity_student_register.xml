@@ -33,5 +33,6 @@
             android:hint="@string/hint_e_mail"
             android:inputType="textEmailAddress"
             android:autofillHints="emailAddress" />
+
     </LinearLayout>
 </ScrollView>
