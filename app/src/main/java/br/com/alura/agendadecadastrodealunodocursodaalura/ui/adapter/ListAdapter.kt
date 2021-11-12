@@ -19,26 +19,35 @@ class ListAdapter(private var people: ArrayList<People>, private val context: Co
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        val inflate = LayoutInflater.from(context)
-            .inflate(R.layout.list_student_presentation, parent, false)
-        val nome : TextView = inflate.findViewById<View>(R.id.list_student_presentation_name) as TextView
-        nome.text = people[position].name
-        val telephone : TextView = inflate.findViewById(R.id.list_student_presentation_phone)
-        telephone.text = people[position].telephone
+        val inflate = getInflater(parent)
+        connectViewAndInfo(inflate, position)
         return inflate
 
     }
 
+    private fun connectViewAndInfo(inflate: View, position: Int) {
+        val nome: TextView = inflate.findViewById(R.id.list_student_presentation_name)
+        nome.text = people[position].name
+        val telephone: TextView = inflate.findViewById(R.id.list_student_presentation_phone)
+        telephone.text = people[position].telephone
+    }
+
+    private fun getInflater(parent: ViewGroup?) = LayoutInflater.from(context)
+        .inflate(R.layout.list_student_presentation, parent, false)
+
     fun clear() {
         people.clear()
+        notifyDataSetChanged()
     }
 
     fun addAll(list: List<People>) {
         this.people.addAll(list)
+        notifyDataSetChanged()
     }
 
     fun remove(people: People) {
         this.people.remove(people)
+        notifyDataSetChanged()
     }
 
 }
