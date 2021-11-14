@@ -12,4 +12,8 @@
     <string name="menu_remove">Remove</string>
     <string name="menu_edit">Edit</string>
     <string name="salvar_aluno">salvar aluno</string>
+    <string name="remove_item">Remove item</string>
+    <string name="ready_to_remove">Ready to remove?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
