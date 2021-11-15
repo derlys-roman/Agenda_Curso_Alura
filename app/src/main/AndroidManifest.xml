@@ -11,7 +11,8 @@
         android:theme="@style/Theme.AgendaAlura">
         <activity android:name=".ui.activity.EditRegisterActivity"/>
         <activity android:name=".ui.activity.StudentRegisterActivity"/>
-        <activity android:name=".ui.activity.StudentListActivity">
+        <activity android:name=".ui.activity.StudentListActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

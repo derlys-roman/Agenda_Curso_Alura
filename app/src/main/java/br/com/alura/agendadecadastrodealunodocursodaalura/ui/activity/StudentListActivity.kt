@@ -1,6 +1,5 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.ui.activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
@@ -16,7 +15,6 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityLi
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 import br.com.alura.agendadecadastrodealunodocursodaalura.ui.adapter.ListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.list_student_presentation.*
 
 class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
     AppCompatActivity(), ConstantsActivities {
@@ -61,9 +59,9 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
         AlertDialog.Builder(this)
             .setTitle(R.string.remove_item)
             .setMessage(R.string.ready_to_remove)
-            .setPositiveButton(R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+            .setPositiveButton(R.string.yes) { dialog, which ->
                 removeOfList(toRemove)
-            })
+            }
             .setNegativeButton(R.string.no, null)
             .show()
     }

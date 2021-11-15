@@ -4,13 +4,10 @@
     <string name="hint_name">Name</string>
     <string name="hint_telephone">Telephone</string>
     <string name="hint_e_mail">E-mail</string>
-    <string name="hint_save">Save</string>
-    <string name="update_button">Update</string>
     <string name="title_edit">Editando Cadastro</string>
     <string name="title_new_register">Novo Registro</string>
     <string name="title_registers">Registers</string>
     <string name="menu_remove">Remove</string>
-    <string name="menu_edit">Edit</string>
     <string name="salvar_aluno">salvar aluno</string>
     <string name="remove_item">Remove item</string>
     <string name="ready_to_remove">Ready to remove?</string>

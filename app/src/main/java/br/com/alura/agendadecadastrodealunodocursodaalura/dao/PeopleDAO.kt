@@ -1,8 +1,6 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.dao
 
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
-import java.util.*
-import kotlin.collections.ArrayList
 
 class PeopleDAO {
 
