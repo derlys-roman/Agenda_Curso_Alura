@@ -9,16 +9,18 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
-import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.ListDatabase
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityListStudentBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 import br.com.alura.agendadecadastrodealunodocursodaalura.ui.adapter.ListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
-    AppCompatActivity(), ConstantsActivities {
+class ListActivity : AppCompatActivity(), ConstantsActivities {
 
+    private lateinit var dao: RoomDAO
     private lateinit var binding: ActivityListStudentBinding
     private lateinit var listView: ListView
     private lateinit var addButton: FloatingActionButton
@@ -34,7 +36,6 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
         listAdapting()
     }
 
-    //Create the context menu and inflate with resource file R.menu.activity_student_menu_remover
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -45,10 +46,9 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        //Get item info for click, use adapter
         val menuInfo: AdapterView.AdapterContextMenuInfo =
             item.menuInfo as AdapterView.AdapterContextMenuInfo
-        val toRemove : People= adapter.getItem(menuInfo.position) as People
+        val toRemove: People = adapter.getItem(menuInfo.position) as People
         if (item.itemId == R.id.activity_student_menu_remove) {
             confirmRemove(toRemove)
         }
@@ -72,13 +72,17 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
     }
 
     private fun startActivityComponents() {
-        this.listView = binding.activityListStudentsListview
+        this.dao = Room.databaseBuilder(this, ListDatabase::class.java, "people.db")
+            .allowMainThreadQueries()
+            .build()
+            .roomDao()
+        this.listView = binding.activityListStudentsRecyclerview
         this.addButton = binding.activityListStudentFab
     }
 
     private fun updateList() {
         adapter.clear()
-        adapter.addAll(dao.read())
+        adapter.addAll(dao.getAll())
     }
 
     private fun listAdapting() {
@@ -93,7 +97,8 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
     }
 
     private fun adapterConfig() {
-        adapter = ListAdapter(dao.read(),this)
+
+        adapter = ListAdapter(dao.getAll() as ArrayList<People>, this)
         listView.adapter = adapter
     }
 
@@ -108,10 +113,7 @@ class StudentListActivity(private val dao: PeopleDAO = PeopleDAO()) :
     }
 
     private fun buttonFab() {
-        callRegisterActivity()
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 
-    private fun callRegisterActivity() {
-        startActivity(Intent(this, StudentRegisterActivity::class.java))
-    }
 }

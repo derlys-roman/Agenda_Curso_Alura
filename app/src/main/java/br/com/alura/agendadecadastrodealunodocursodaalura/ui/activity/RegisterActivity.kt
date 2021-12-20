@@ -5,23 +5,30 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.ListDatabase
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
-class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity() {
+class RegisterActivity() : AppCompatActivity() {
+
     private lateinit var binding: ActivityStudentRegisterBinding
     private lateinit var campoNome: EditText
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
+    private lateinit var dao: RoomDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudentRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = getString(R.string.title_new_register)
+
         startActivityComponents()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,6 +52,10 @@ class StudentRegisterActivity(private val dao: PeopleDAO = PeopleDAO()) : AppCom
     }
 
     private fun startActivityComponents() {
+        this.dao = Room.databaseBuilder(this, ListDatabase::class.java, "people.db")
+            .allowMainThreadQueries()
+            .build()
+            .roomDao()
         campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail

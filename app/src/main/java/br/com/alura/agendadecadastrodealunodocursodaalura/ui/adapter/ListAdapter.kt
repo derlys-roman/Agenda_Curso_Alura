@@ -9,7 +9,8 @@ import android.widget.TextView
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
-class ListAdapter(private var people: ArrayList<People>, private val context: Context): BaseAdapter() {
+class ListAdapter(private var people: ArrayList<People>, private val context: Context) :
+    BaseAdapter() {
 
     override fun getCount(): Int = people.size
 
@@ -20,12 +21,12 @@ class ListAdapter(private var people: ArrayList<People>, private val context: Co
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         val inflate = getInflater(parent)
-        connectViewAndInfo(inflate, position)
+        connectDataToView(inflate, position)
         return inflate
 
     }
 
-    private fun connectViewAndInfo(inflate: View, position: Int) {
+    private fun connectDataToView(inflate: View, position: Int) {
         val nome: TextView = inflate.findViewById(R.id.list_student_presentation_name)
         nome.text = people[position].name
         val telephone: TextView = inflate.findViewById(R.id.list_student_presentation_phone)

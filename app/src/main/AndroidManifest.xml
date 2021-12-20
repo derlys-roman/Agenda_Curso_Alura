@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="br.com.alura.agendadecadastrodealunodocursodaalura">
 
     <application
@@ -8,10 +9,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AgendaAlura">
+        android:theme="@style/Theme.AgendaAlura"
+        tools:ignore="AllowBackup">
         <activity android:name=".ui.activity.EditRegisterActivity"/>
-        <activity android:name=".ui.activity.StudentRegisterActivity"/>
-        <activity android:name=".ui.activity.StudentListActivity"
+        <activity android:name=".ui.activity.RegisterActivity"/>
+        <activity android:name=".ui.activity.ListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

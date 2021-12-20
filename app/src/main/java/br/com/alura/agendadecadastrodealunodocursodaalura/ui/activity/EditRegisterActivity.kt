@@ -5,18 +5,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
-import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.ListDatabase
+import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
-class EditRegisterActivity (private val dao: PeopleDAO = PeopleDAO()) : AppCompatActivity(), ConstantsActivities {
+class EditRegisterActivity() : AppCompatActivity(), ConstantsActivities {
 
     private lateinit var binding: ActivityStudentRegisterBinding
     private lateinit var campoNome: EditText
     private lateinit var campoTelefone: EditText
     private lateinit var campoEmail: EditText
     private var elementoEditado: People = People()
+    private lateinit var dao: RoomDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,7 @@ class EditRegisterActivity (private val dao: PeopleDAO = PeopleDAO()) : AppCompa
         startActivityComponents()
         fillFields()
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.activity_register_menu_salvar, menu)
         return super.onCreateOptionsMenu(menu)
@@ -38,7 +42,7 @@ class EditRegisterActivity (private val dao: PeopleDAO = PeopleDAO()) : AppCompa
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updatePeople(){
+    private fun updatePeople() {
         elementoEditado.name = campoNome.text.toString()
         elementoEditado.telephone = campoTelefone.text.toString()
         elementoEditado.email = campoEmail.text.toString()
@@ -47,12 +51,16 @@ class EditRegisterActivity (private val dao: PeopleDAO = PeopleDAO()) : AppCompa
     }
 
     private fun startActivityComponents() {
-        campoNome = binding.activityRegisterStudentName
+        this.dao = Room.databaseBuilder(this, ListDatabase::class.java, "people.db")
+            .allowMainThreadQueries()
+            .build()
+            .roomDao()
+        this.campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail
     }
 
-    private fun fillFields(){
+    private fun fillFields() {
         campoNome.setText(elementoEditado.name)
         campoEmail.setText(elementoEditado.email)
         campoTelefone.setText(elementoEditado.telephone)

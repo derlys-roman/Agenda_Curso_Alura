@@ -1,22 +1,20 @@
 package br.com.alura.agendadecadastrodealunodocursodaalura.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
 data class People(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var name: String = "",
     var telephone: String = "",
-    var email: String = "",
-    var id: Int = 0
+    var email: String = ""
 ) : Parcelable {
 
-    fun idValid(): Boolean {
-        if (this.id < 1) {
-            return false
-        }
-        return true
-    }
     override fun toString(): String {
         return name
     }
