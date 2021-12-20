@@ -16,7 +16,7 @@
             android:layout_margin="8dp"
             android:hint="@string/hint_name"
             android:inputType="textCapWords"
-            android:autofillHints="name" />
+            android:importantForAutofill="no" />
         <EditText
             android:id="@+id/activity_register_student_telephone"
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_margin="8dp"
             android:hint="@string/hint_telephone"
             android:inputType="phone"
-            android:autofillHints="phone"/>
+            android:importantForAutofill="no"/>
         <EditText
             android:id="@+id/activity_register_student_email"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_margin="8dp"
             android:hint="@string/hint_e_mail"
             android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress" />
+            android:importantForAutofill="no" />
 
     </LinearLayout>
 </ScrollView>

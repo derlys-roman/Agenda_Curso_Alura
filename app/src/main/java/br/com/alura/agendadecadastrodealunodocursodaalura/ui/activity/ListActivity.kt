@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
 import br.com.alura.agendadecadastrodealunodocursodaalura.data.ListDatabase
 import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
@@ -72,10 +71,7 @@ class ListActivity : AppCompatActivity(), ConstantsActivities {
     }
 
     private fun startActivityComponents() {
-        this.dao = Room.databaseBuilder(this, ListDatabase::class.java, "people.db")
-            .allowMainThreadQueries()
-            .build()
-            .roomDao()
+        this.dao = ListDatabase.getInstance(this)
         this.listView = binding.activityListStudentsRecyclerview
         this.addButton = binding.activityListStudentFab
     }
@@ -97,7 +93,6 @@ class ListActivity : AppCompatActivity(), ConstantsActivities {
     }
 
     private fun adapterConfig() {
-
         adapter = ListAdapter(dao.getAll() as ArrayList<People>, this)
         listView.adapter = adapter
     }
@@ -115,5 +110,4 @@ class ListActivity : AppCompatActivity(), ConstantsActivities {
     private fun buttonFab() {
         startActivity(Intent(this, RegisterActivity::class.java))
     }
-
 }

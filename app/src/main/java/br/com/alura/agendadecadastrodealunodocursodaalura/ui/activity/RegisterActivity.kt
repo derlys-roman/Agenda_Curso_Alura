@@ -5,9 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
 import br.com.alura.agendadecadastrodealunodocursodaalura.R
-import br.com.alura.agendadecadastrodealunodocursodaalura.dao.PeopleDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.data.ListDatabase
 import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
@@ -52,10 +50,7 @@ class RegisterActivity() : AppCompatActivity() {
     }
 
     private fun startActivityComponents() {
-        this.dao = Room.databaseBuilder(this, ListDatabase::class.java, "people.db")
-            .allowMainThreadQueries()
-            .build()
-            .roomDao()
+        this.dao = ListDatabase.getInstance(this)
         campoNome = binding.activityRegisterStudentName
         campoTelefone = binding.activityRegisterStudentTelephone
         campoEmail = binding.activityRegisterStudentEmail

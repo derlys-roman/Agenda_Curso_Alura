@@ -14,6 +14,6 @@ interface RoomDAO {
     @Delete
     fun delete(people: People)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     fun update(elementoEditado: People)
 }
