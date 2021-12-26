@@ -8,8 +8,7 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
 @Database(entities = [People::class], version = 1, exportSchema = false)
-abstract class ListDatabase : RoomDatabase() {
-
+abstract class ListDatabase private constructor(): RoomDatabase() {
 
     abstract fun roomDao(): RoomDAO
 

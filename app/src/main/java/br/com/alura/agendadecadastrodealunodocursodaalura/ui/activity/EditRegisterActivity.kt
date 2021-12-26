@@ -11,7 +11,7 @@ import br.com.alura.agendadecadastrodealunodocursodaalura.data.dao.RoomDAO
 import br.com.alura.agendadecadastrodealunodocursodaalura.databinding.ActivityStudentRegisterBinding
 import br.com.alura.agendadecadastrodealunodocursodaalura.model.People
 
-class EditRegisterActivity() : AppCompatActivity(), ConstantsActivities {
+class EditRegisterActivity : AppCompatActivity(), ConstantsActivities {
 
     private lateinit var binding: ActivityStudentRegisterBinding
     private lateinit var campoNome: EditText
